@@ -1,2 +1,0 @@
-# Acknowledgements {epub:type=acknowledgements}
-

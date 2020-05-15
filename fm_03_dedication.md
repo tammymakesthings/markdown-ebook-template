@@ -1,2 +1,0 @@
-# Dedication {epub:type=dedication}
-

@@ -13,7 +13,7 @@
 # The basename for the generated files
 #---------------------------------------------------------------------------
 
-FILENAME=mybook
+FILENAME=AZMystery1
 
 #---------------------------------------------------------------------------
 # Tool locations
@@ -23,17 +23,20 @@ RM=/usr/bin/rm
 GIT=/usr/bin/git
 PANDOC=/usr/bin/pandoc
 EBOOK_CONVERT=/usr/bin/ebook-convert
-CONTEXT=/usr/local/texlive/2020/bin/x86_64-linux/context
+PDF_ENGINE=/usr/bin/xelatex
+PERL=/home/tammy/perl/bin/perl
+XELATEX=$(PDF_ENGINE)
 
 #---------------------------------------------------------------------------
 # Common Pandoc options
 #---------------------------------------------------------------------------
 
-COMMON_OPTS=--css ebook.css \
+COMMON_OPTS=--css metadata/ebook.css \
 			--from=markdown \
 			--toc \
 			--toc-depth=1 \
 			--strip-comments \
+			--standalone
 
 #---------------------------------------------------------------------------
 # Format Specific Options
@@ -46,24 +49,30 @@ EPUB_OPTS=$(COMMON_OPTS) \
 
 # Pandoc options common to all PDF output targets
 PDF_BASE_OPTS=$(COMMON_OPTS) \
-			  --to=context \
-			  --pdf-engine=$(CONTEXT)
+			  --pdf-engine=xelatex \
+			  -V linkcolor:blue \
+			  -V mainfont="Gentium Plus" \
+			  -V monofont="DejaVu Sans Mono" \
+			  -V documentclass="book" \
+			  -V classoption="twoside" \
+			  --include-in-header tex/xelatex_bullets.tex  \
+			  --include-in-header tex/xelatex_hyperref.tex  \
+			  --include-in-header tex/xelatex_codeblocks.tex \
+			  --highlight-style metadata/pygments.theme
 
 # Pandoc options for final trade paper-sized PDF book
 PDF_OPTS=$(PDF_BASE_OPTS) \
-		 --include-in-header=tex/papersize.tex \
-		 --include-in-header=tex/bodyfont.tex
+		--include-in-header tex/xelatex_chapterbreak.tex \
+		--include-in-header tex/xelatex_papersize.tex
 
 # Pandoc options for letter sized draft PDF
-PDF_DRAFT_OPTS=$(PDF_BASE_OPTS) \
-		 --include-in-header=tex/draft.tex
+PDF_DRAFT_OPTS=$(PDF_BASE_OPTS)
 
 # Pandoc options for printing the journal file
-PDF_JOURNAL_OPTS=$(PDF_BASE_OPTS) \
-				 --include-in-header=tex/bodyfont.tex
+PDF_JOURNAL_OPTS=$(PDF_BASE_OPTS)
 
 # Input files
-METADATA_FILE=metadata.yaml
+METADATA_FILE=metadata/metadata.yaml
 FRONTMATTER_FILES=$(wildcard ./fm_*.md)
 MAINMATTER_FILES=$(wildcard ./ch_*.md)
 ENDMATTER_FILES=$(wildcard ./em_*.md)
@@ -106,7 +115,11 @@ mobi: epub
 	$(EBOOK_CONVERT) $(FILENAME).epub $(FILENAME).mobi
 
 pdf: $(INPUT_FILES)
-	$(PANDOC) $(PDF_OPTS) -o $(FILENAME).pdf $(INPUT_FILES)
+	$(PANDOC) $(PDF_OPTS) $(INPUT_FILES) -o $(FILENAME).tex
+	$(PERL) scripts/fixup_xelatex.pl $(FILENAME).tex
+	$(XELATEX) $(FILENAME).tex
+	$(XELATEX) $(FILENAME).tex
+	$(RM) -f $(FILENAME).aux $(FILENAME).log $(FILENAME).toc $(FILENAME).dvi
 
 journal: $(JOURNAL_FILES)
 	$(PANDOC) $(PDF_JOURNAL_OPTS) -o $(FILENAME)_journal.pdf $(JOURNAL_FILES)
@@ -117,6 +130,8 @@ draftpdf: $(INPUT_FILES)
 clean:
 	$(RM) -f $(FILENAME).epub $(FILENAME).pdf $(FILENAME).mobi
 	$(RM) -f $(FILENAME)_draft.pdf $(FILENAME)_journal.pdf
+	$(RM) -f $(FILENAME).aux $(FILENAME).log $(FILENAME).tex $(FILENAME).dvi
+	$(RM) -f $(FILENAME).fls* $(FILENAME).fdb*
 
 gitsnap:
 	$(GIT) add .

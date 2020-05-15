@@ -1,2 +1,0 @@
-# Copyright {epub:type=copyright}
-
