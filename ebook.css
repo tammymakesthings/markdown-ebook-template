@@ -1,0 +1,20 @@
+body { font-family: Georgia,"Times New Roman",Times; margin: 5%; text-align: justify; font-size: medium; }
+code { font-family: monospace; }
+section h1 { text-align: left; font-size: 4.5em; font-weight: bold; margin-bottom: 0; padding-bottom: 0; font-style: italic; }
+h1 + p { margin-top: 0; padding-top: 0; }
+h2 { text-align: left; font-size: 1.5em; }
+h3 { text-align: left; font-size: 1em; font-weight: bold; }
+h4 { text-align: left; }
+h5 { text-align: left; }
+h6 { text-align: left; }
+h1.title { text-align: left; font-size: 2em; margin-top: 50%; }
+h2.author { font-size: 1.3em; }
+h3.date { }
+div.title h1 { text-align: left; font-size: 2em; margin-top: 50%; }
+ol.toc { padding: 0; margin-left: 1em; }
+ol.toc li { list-style-type: none; margin: 0; padding: 0; }
+hr { border: none; text-align: center; }
+hr:after { content: '* * *'; }
+#toc > ol > li > a { display: none; }
+#the-night-alphabet blockquote { margin-top: 50%; font-style: italic; }
+#the-night-alphabet h1 { text-align: center; font-size: 4em; page-break-after: always; }

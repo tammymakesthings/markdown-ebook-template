@@ -1,0 +1,32 @@
+% Switch to the Nimbus font family.
+\enableregime[utf]
+\setupcapitals[sc=yes]
+
+\starttypescript [serif] [nimbus]
+  \definefontsynonym [Serif]             [name:nimbusromno9lregu]
+  \definefontsynonym [SerifBold]         [name:nimbusromno9lbold]
+  \definefontsynonym [SerifItalic]       [name:nimbusromno9lreguital]
+  \definefontsynonym [SerifSlanted]      [name:nimbusromno9lreguital]
+  \definefontsynonym [SerifBoldItalic]   [name:nimbusromno9lboldital]
+  \definefontsynonym [SerifBoldSlanted]  [name:nimbusromno9lboldital]
+  \definefontsynonym [SerifCaps]         [name:nimbusromno9lregu]
+\stoptypescript
+
+% Define a second script named [sans][nimbus]
+\starttypescript [sans] [nimbus]
+  \definefontsynonym [Sans]             [name:nimbussanlregu]
+  \definefontsynonym [SansBold]         [name:nimbussanlbold]
+  \definefontsynonym [SansItalic]       [name:nimbussanlreguital]
+  \definefontsynonym [SansSlanted]      [name:nimbussanlreguital]
+  \definefontsynonym [SansBoldItalic]   [name:nimbussanlboldital]
+  \definefontsynonym [SansBoldSlanted]  [name:nimbussanlboldital]
+  \definefontsynonym [SansCaps]         [name:nimbussanlregu]
+\stoptypescript
+
+% Define the typeface nimbus; use serif for rm-fonts, sans serif for ss-fonts.
+\definetypeface [nimbus] [rm] [serif] [nimbus]
+\definetypeface [nimbus] [ss] [sans]  [nimbus]
+
+% Indicate the typeface to use.
+\usetypescript[nimbus][uc]
+\setupbodyfont[nimbus,rm,10pt]

@@ -1,0 +1,8 @@
+% Set the size of the paper
+\definepapersize[tradepaper][width=5.5in, height=8.5in]
+\setuppapersize[tradepaper]
+
+% CHapters start on a right-handed page
+\setuppagenumbering[alternative=doublesided]
+\definepagebreak[chapterpagebreak][yes, right]
+\setuphead[chapter][pagebreak=chapterpagebreak]
