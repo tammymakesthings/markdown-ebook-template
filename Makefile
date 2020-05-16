@@ -73,17 +73,17 @@ PDF_JOURNAL_OPTS=$(PDF_BASE_OPTS)
 
 # Input files
 METADATA_FILE=metadata/metadata.yaml
-FRONTMATTER_FILES=$(wildcard ./fm_*.md)
-MAINMATTER_FILES=$(wildcard ./ch_*.md)
-ENDMATTER_FILES=$(wildcard ./em_*.md)
-JOURNAL_FILES=$(wildcard ./journal/*.md)
+FRONTMATTER_FILES=$(shell echo ./fm_*.md | sort)
+MAINMATTER_FILES=$(shell echo ./ch_*.md | sort)
+ENDMATTER_FILES=$(shell echo ./em_*.md | sort)
+JOURNAL_FILES=$(shell echo ./journal/*.md | sort)
 
 ########################### End of Configuration ############################
 
-INPUT_FILES=$(METADATA_FILE) \
-			$(FRONTMATTER_FILES) \
+INPUT_FILES=$(FRONTMATTER_FILES) \
 			$(MAINMATTER_FILES) \
-			$(ENDMATTER_FILES)
+			$(ENDMATTER_FILES) \
+			$(METADATA_FILE)
 
 all: mobi epub pdf
 

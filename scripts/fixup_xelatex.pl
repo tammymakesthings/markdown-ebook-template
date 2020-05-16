@@ -34,6 +34,15 @@ while (<INPUT>)
         print "Found \\author line at line ${linecount} - injecting title\n";
         print OUTPUT "\\author{${book_author}}\n";
     }
+    elsif ($line =~ m/\\chapter{(.*?)}\\label{(.*?)}}$/) {
+        if ($injected_mainmatter == 0) {
+            print "Got chapter [", $1, "] with label [", $2, "] in frontmatter\n";
+            print OUTPUT "\\chapter*{$1}\\label{$2}}\n";
+        }
+        else {
+            print OUTPUT $line;
+        }
+    }
     elsif ($line =~ m/^\\hypertarget{prologue}/) {
         if ($injected_mainmatter == 0) {
             print "Found start of prologue at line ${linecount} - injecting mainmatter\n";
