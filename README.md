@@ -2,9 +2,9 @@
 Template for creating books (paperback and ebook) from Markdown files.
 
 This project contains a template for creating a book (paperback and eBook)
-from Markdown sources. It also supports the use of a "book journal", 
+from Markdown sources. It also supports the use of a "book journal",
 something I use when I'm plotting out a book. I got this idea from an
-article published in 
+article published in
 [Writing Mysteries](https://www.amazon.com/Writing-Mysteries-Sue-Grafton/dp/1582971021/).
 You can see a few examples of a book journal
 [here](https://www.suegrafton.com/journal-notes.php)
@@ -20,7 +20,9 @@ You can see a few examples of a book journal
 3. Edit the `Makefile`. At a minimum you need to change the `FILENAME` variable
    to a short version of your book's name.
 
-4. Edit the `metadata.yaml` file to reflect your book's metadata.
+4. Edit the ``metadata/pandoc_metadata.yaml`` and ``metadata/epub_metadata.yaml``
+   files to reflect your book's metadata. You should also customize the metadata
+   in ``tex/xelatex_hyperref.tex``.
 
 ## Usage example
 
@@ -42,7 +44,7 @@ The Makefile defines the following targets for generating output files:
 <dt><strong>epub</strong></dt>
 <dd>
 Generates an EPUB version of the book. The <strong>.epub</strong>
-file is also used as the base for generating the <strong>mobi</strong> 
+file is also used as the base for generating the <strong>mobi</strong>
 file.
 </dd>
 <dt><strong>mobi</strong></dt>
@@ -78,6 +80,9 @@ The following additional maintenance targets also are defined:
 <dd>Displays a help message.</dd>
 </dl>
 
+A couple of additional Makefile targets exist for testing purposes. You're
+welcome to use them, but they're undocumented on purpose.
+
 ### Adding Content
 
 Any images you'd like to add to your book should go in the ``images/`` folder.
@@ -87,7 +92,7 @@ Your ebook cover (625 x 1000 pixels) should go in ``images/cover.jpg``.
 Markdown files should be in the main directory. The Makefile picks up the
 frontmatter (`fm_*.md`), mainmatter (`ch_*.md`), and endmatter (`em_*.md`)
 files with wildcard expansion, so name your files accordingly. You should
-also add the `epub:type` attribute (see the 
+also add the `epub:type` attribute (see the
 [Pandoc help](https://pandoc.org/MANUAL.html#the-epubtype-attribute)) to
 the headers of anything that's not a regular chapter.
 
@@ -95,20 +100,24 @@ The ebook CSS file is ``ebook.css``, which can be customized as desired.
 
 ### Customizing the PDF Generation
 
-The following [ConTeXt](https://en.wikipedia.org/wiki/ConTeXt) files are used
+The following [XeLaTeX](https://en.wikipedia.org/wiki/XeTeX) files are used
 during the PDF generation:
 
-- ``tex/bodyfont.tex`` - Changes the font for the generated PDF.
-- ``tex/draft.tex`` - Creates a "DRAFT" watermark for the `draftpdf` target.
-- ``tex/papersize.tex`` - Makes the generated PDF paper size trade paper.
-
-You can customize these, and add your own ConTeXt files to perform additional
+- ``tex/xelatex_bullets.tex`` - customizes list bullets
+- ``tex/xelatex_chapterbreak.tex`` - forces chapters to start on a
+right-hand page
+- ``tex/xelatex_codeblocks.tex`` - Pygments formatting for code blocks
+- ``tex/xelatex_hyperref.tex`` - Hyperref metadata
+- ``tex/xelatex_papersize.tex`` - Sets the paper size for the print PDF.
+ConTeXt
+You can customize these, and add your own LaTeX files to perform additional
 customization. Add a `--include-in-header` option for your new file(s) to the
 appropriate Makefile variables (`PDF_OPTS`, `PDF_BASE_OPTS`, `PDF_DRAFT_OPTS`
 or `PDF_JOURNAL_OPTS`).
 
 ## Release History
 
+* 2020-05-17 - Converted from ConTeXt to XELaTeX engine
 * 2020-05-15 - Initial Revision
 
 ## Meta
