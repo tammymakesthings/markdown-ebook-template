@@ -6,8 +6,7 @@
 #
 # - Pandoc
 # - ebook-convert (from Calibre)
-# - XELaTeX
-# - Perl
+# - ConTeXt
 #############################################################################
 
 #---------------------------------------------------------------------------
@@ -56,18 +55,15 @@ COMMON_OPTS=--css=ebook.css \
 # Pandoc options for EPub files
 EPUB_OPTS=$(COMMON_OPTS) \
 		  --epub-cover-image=images/cover.jpg \
-		  --epub-embed-font=fonts/*.ttf
+		  --epub-embed-font=fonts/*.ttf \
+		  --data-dir=.
 		  --to=epub
 
 # Pandoc options common to all PDF output targets
 PDF_BASE_OPTS=$(COMMON_OPTS) \
 			  --pdf-engine=xelatex \
 			  -V linkcolor:blue \
-			  -V mainfont="Crimson Text" \
-			  -V monofont="Anonymous Pro" \
-			  -V fontsize=11pt \
 			  -V documentclass="book" \
-			  -V classoption="twoside" \
 			  --include-in-header=tex/xelatex_bullets.tex  \
 			  --include-in-header=tex/xelatex_hyperref.tex  \
 			  --include-in-header=tex/xelatex_codeblocks.tex \
@@ -75,15 +71,25 @@ PDF_BASE_OPTS=$(COMMON_OPTS) \
 
 # Pandoc options for final trade paper-sized PDF book
 PDF_OPTS=$(PDF_BASE_OPTS) \
+		-V mainfont="Crimson Text" \
+		-V monofont="Anonymous Pro" \
+		-V classoption="twoside" \
+		-V fontsize=11pt \
 		--include-in-header=tex/xelatex_chapterbreak.tex \
 		--include-in-header=tex/xelatex_papersize.tex
 
 # Pandoc options for letter sized draft PDF
-PDF_DRAFT_OPTS=$(PDF_BASE_OPTS)
+PDF_DRAFT_OPTS=$(PDF_BASE_OPTS) \
+		      -V mainfont="Dark Courier" \
+			  -V monofont="Dark Courier" \
+			  -V fontsize=12pt \
+			  --include-in-header=tex/xelatex_doublespace.tex
 
 # Pandoc options for printing the journal file
-PDF_JOURNAL_OPTS=$(PDF_BASE_OPTS)
-
+PDF_JOURNAL_OPTS=$(PDF_BASE_OPTS) \
+				 -V mainfont="Crimson Text" \
+				 -V monofont="Anonymous Pro" \
+				 -V fontsize=12pt
 
 ########################### End of Configuration ############################
 
@@ -95,22 +101,22 @@ all: mobi epub pdf
 
 veryall: clean mobi pdf epub draftpdf journal
 
-help:
+help: 
 	@echo "============================================================================"
-	@echo "             Makefile for Markdown to Pandoc Book Publishing"
+	@echo "			 Makefile for Markdown to Pandoc Book Publishing"
 	@echo "============================================================================"
 	@echo ""
 	@echo "Available Targets:"
 	@echo ""
-	@echo "epub        Generate an EPUB ebook"
-	@echo "mobi        Generate a MOBI (Kindle) ebook"
-	@echo "pdf         Generate a trade-paper PDF ready for CreateSpace printing"
-	@echo "draftpdf    Generate a letter-sized PDF with DRAFT watermark"
-	@echo "journal     Generate a PDF of the Book Journal files in journal/"
+	@echo "epub		Generate an EPUB ebook"
+	@echo "mobi		Generate a MOBI (Kindle) ebook"
+	@echo "pdf		 Generate a trade-paper PDF ready for CreateSpace printing"
+	@echo "draftpdf	Generate a letter-sized PDF with DRAFT watermark"
+	@echo "journal	 Generate a PDF of the Book Journal files in journal/"
 	@echo ""
-	@echo "clean       Remove all generated files"
-	@echo "gitsnap     Git snapshot commit of the current directory"
-	@echo "all         Generates epub, mobi and pdf files."
+	@echo "clean	   Remove all generated files"
+	@echo "gitsnap	 Git snapshot commit of the current directory"
+	@echo "all		 Generates epub, mobi and pdf files."
 	@echo ""
 	@echo "Generated file basename: $(FILENAME)"
 
@@ -136,15 +142,14 @@ journal: $(JOURNAL_FILES)
 draftpdf: $(INPUT_FILES)
 	$(PANDOC) $(PDF_DRAFT_OPTS) -o $(FILENAME)_draft.pdf $(INPUT_FILES)
 
-clean:
+clean: ;
 	$(RM) -f $(FILENAME).epub $(FILENAME).pdf $(FILENAME).mobi
 	$(RM) -f $(FILENAME)_draft.pdf $(FILENAME)_journal.pdf
 	$(RM) -f $(FILENAME).aux $(FILENAME).log $(FILENAME).tex $(FILENAME).dvi
 	$(RM) -f $(FILENAME).fls* $(FILENAME).fdb*
 
-gitsnap:
+gitsnap: ;
 	$(GIT) add .
 	$(GIT) commit -m "Snapshot commit at `date`"
 
 .PHONY: epub mobi pdf clean draftpdf journal gitsnap all veryall
-
