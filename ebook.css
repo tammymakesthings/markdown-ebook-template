@@ -1,0 +1,144 @@
+/*
+ * ebook.css: Stylesheet for epub
+ */
+
+/************************* Font Embeds *************************/
+@font-face {
+    font-family: "Crimson Text";
+    font-style: normal;
+    font-weight: normal;
+    src: url("fonts/CrimsonText-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Crimson Text";
+    font-style: italic;
+    font-weight: normal;
+    src:url("fonts/CrimsonText-Italic.ttf");
+}
+
+@font-face {
+    font-family: "Crimson Text";
+    font-style: normal;
+    font-weight: bold;
+    src:url("fonts/CrimsonText-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Crimson Text";
+    font-style: italic;
+    font-weight: bold;
+    src:url("fonts/CrimsonText-BoldItalic.ttf");
+}
+
+@font-face {
+    font-family: "Anonymous Pro";
+    font-style: normal;
+    font-weight: normal;
+    src:url("fonts/AnonymousPro.ttf");
+}
+
+/************************* EBook Styling *************************/
+
+body {
+    font-family: "Crimson Text", "Times New Roman", "Times", serif;
+    margin: 5%;
+    text-align: justify;
+    font-size: medium;
+}
+
+code {
+    font-family: "Anonymous Pro", "Courier New", "Courier", monospace;
+}
+
+section h1 {
+    text-align: left;
+    font-size: 4.5em;
+    font-family: "Crimson Text Bold";
+    margin-bottom: 0;
+    padding-bottom: 0;
+    font-style: italic;
+}
+
+h1 + p {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+h2 {
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+h3 {
+    text-align: left;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+h4 {
+    text-align: left;
+}
+
+h5 {
+    text-align: left;
+}
+
+h6 {
+    text-align: left;
+}
+
+h1.title {
+    text-align: left;
+    font-size: 2em;
+    margin-top: 50%;
+}
+
+h2.author {
+    font-size: 1.3em;
+}
+
+h3.date {
+}
+
+div.title h1 {
+    text-align: left;
+    font-size: 2em;
+    margin-top: 50%;
+}
+
+ol.toc {
+    padding: 0;
+    margin-left: 1em;
+}
+
+ol.toc li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+hr {
+    border: none;
+    text-align: center;
+}
+
+hr:after {
+    content: '* * *';
+}
+
+#toc > ol > li > a {
+    display: none;
+}
+
+#the-night-alphabet blockquote {
+    margin-top: 50%;
+    font-style: italic;
+}
+
+#the-night-alphabet h1 {
+    text-align: center;
+    font-size: 4em;
+    page-break-after: always;
+}

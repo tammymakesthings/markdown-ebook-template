@@ -6,15 +6,15 @@
 #
 # - Pandoc
 # - ebook-convert (from Calibre)
-# - xelatex
-# - perl
+# - XELaTeX
+# - Perl
 #############################################################################
 
 #---------------------------------------------------------------------------
 # The basename for the generated files
 #---------------------------------------------------------------------------
 
-FILENAME=MyBook
+FILENAME=MyAwesomeBook
 
 #---------------------------------------------------------------------------
 # Tool locations
@@ -56,14 +56,15 @@ COMMON_OPTS=--css=ebook.css \
 # Pandoc options for EPub files
 EPUB_OPTS=$(COMMON_OPTS) \
 		  --epub-cover-image=images/cover.jpg \
+		  --epub-embed-font=fonts/*.ttf
 		  --to=epub
 
 # Pandoc options common to all PDF output targets
 PDF_BASE_OPTS=$(COMMON_OPTS) \
 			  --pdf-engine=xelatex \
 			  -V linkcolor:blue \
-			  -V mainfont="DejaVu Serif" \
-			  -V monofont="DejaVu Sans Mono" \
+			  -V mainfont="Crimson Text" \
+			  -V monofont="Anonymous Pro" \
 			  -V fontsize=11pt \
 			  -V documentclass="book" \
 			  -V classoption="twoside" \
@@ -82,6 +83,7 @@ PDF_DRAFT_OPTS=$(PDF_BASE_OPTS)
 
 # Pandoc options for printing the journal file
 PDF_JOURNAL_OPTS=$(PDF_BASE_OPTS)
+
 
 ########################### End of Configuration ############################
 
@@ -113,7 +115,7 @@ help:
 	@echo "Generated file basename: $(FILENAME)"
 
 epub: $(INPUT_FILES) $(EPUB_METADATA_FILE)
-	$(PANDOC) $(EPUB_OPTS) -o $(FILENAME).epub $(INPUT_FILES) $(EPUB_METADATA_FILE)
+	$(PANDOC) $(EPUB_OPTS) --to=epub -o $(FILENAME).epub $(INPUT_FILES) $(EPUB_METADATA_FILE)
 
 tex: $(INPUT_FILES)
 	$(PANDOC) $(PDF_OPTS) $(INPUT_FILES) -o $(FILENAME).tex
@@ -144,4 +146,5 @@ gitsnap:
 	$(GIT) add .
 	$(GIT) commit -m "Snapshot commit at `date`"
 
-.PHONY: epub mobi pdf clean draftpdf journal gitsnap all veryall tex
+.PHONY: epub mobi pdf clean draftpdf journal gitsnap all veryall
+
