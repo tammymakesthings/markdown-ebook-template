@@ -91,10 +91,7 @@ Your ebook cover (625 x 1000 pixels) should go in ``images/cover.jpg``.
 
 Markdown files should be in the main directory. The Makefile picks up the
 frontmatter (`fm_*.md`), mainmatter (`ch_*.md`), and endmatter (`em_*.md`)
-files with wildcard expansion, so name your files accordingly. You should
-also add the `epub:type` attribute (see the
-[Pandoc help](https://pandoc.org/MANUAL.html#the-epubtype-attribute)) to
-the headers of anything that's not a regular chapter.
+files with wildcard expansion, so name your files accordingly.
 
 The ebook CSS file is ``ebook.css``, which can be customized as desired.
 
