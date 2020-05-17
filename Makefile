@@ -6,14 +6,15 @@
 #
 # - Pandoc
 # - ebook-convert (from Calibre)
-# - ConTeXt
+# - xelatex
+# - perl
 #############################################################################
 
 #---------------------------------------------------------------------------
 # The basename for the generated files
 #---------------------------------------------------------------------------
 
-FILENAME=AZMystery1
+FILENAME=MyBook
 
 #---------------------------------------------------------------------------
 # Tool locations
@@ -27,16 +28,26 @@ PDF_ENGINE=/usr/bin/xelatex
 PERL=/home/tammy/perl/bin/perl
 XELATEX=$(PDF_ENGINE)
 
+# Input files
+PANDOC_METADATA_FILE=metadata/pandoc_metadata.yaml
+EPUB_METADATA_FILE=metadata/epub_metadata.yaml
+FRONTMATTER_FILES=$(shell echo ./fm_*.md | sort)
+MAINMATTER_FILES=$(shell echo ./ch_*.md | sort)
+ENDMATTER_FILES=$(shell echo ./em_*.md | sort)
+JOURNAL_FILES=$(shell echo ./journal/*.md | sort)
+
 #---------------------------------------------------------------------------
 # Common Pandoc options
 #---------------------------------------------------------------------------
 
-COMMON_OPTS=--css metadata/ebook.css \
+COMMON_OPTS=--css=ebook.css \
 			--from=markdown \
 			--toc \
 			--toc-depth=1 \
 			--strip-comments \
-			--standalone
+			--standalone \
+			--metadata-file=$(PANDOC_METADATA_FILE) \
+			--resource-path=.:metadata:images:tex
 
 #---------------------------------------------------------------------------
 # Format Specific Options
@@ -51,19 +62,20 @@ EPUB_OPTS=$(COMMON_OPTS) \
 PDF_BASE_OPTS=$(COMMON_OPTS) \
 			  --pdf-engine=xelatex \
 			  -V linkcolor:blue \
-			  -V mainfont="Gentium Plus" \
+			  -V mainfont="DejaVu Serif" \
 			  -V monofont="DejaVu Sans Mono" \
+			  -V fontsize=11pt \
 			  -V documentclass="book" \
 			  -V classoption="twoside" \
-			  --include-in-header tex/xelatex_bullets.tex  \
-			  --include-in-header tex/xelatex_hyperref.tex  \
-			  --include-in-header tex/xelatex_codeblocks.tex \
-			  --highlight-style metadata/pygments.theme
+			  --include-in-header=tex/xelatex_bullets.tex  \
+			  --include-in-header=tex/xelatex_hyperref.tex  \
+			  --include-in-header=tex/xelatex_codeblocks.tex \
+			  --highlight-style=metadata/pygments.theme
 
 # Pandoc options for final trade paper-sized PDF book
 PDF_OPTS=$(PDF_BASE_OPTS) \
-		--include-in-header tex/xelatex_chapterbreak.tex \
-		--include-in-header tex/xelatex_papersize.tex
+		--include-in-header=tex/xelatex_chapterbreak.tex \
+		--include-in-header=tex/xelatex_papersize.tex
 
 # Pandoc options for letter sized draft PDF
 PDF_DRAFT_OPTS=$(PDF_BASE_OPTS)
@@ -71,19 +83,11 @@ PDF_DRAFT_OPTS=$(PDF_BASE_OPTS)
 # Pandoc options for printing the journal file
 PDF_JOURNAL_OPTS=$(PDF_BASE_OPTS)
 
-# Input files
-METADATA_FILE=metadata/metadata.yaml
-FRONTMATTER_FILES=$(shell echo ./fm_*.md | sort)
-MAINMATTER_FILES=$(shell echo ./ch_*.md | sort)
-ENDMATTER_FILES=$(shell echo ./em_*.md | sort)
-JOURNAL_FILES=$(shell echo ./journal/*.md | sort)
-
 ########################### End of Configuration ############################
 
 INPUT_FILES=$(FRONTMATTER_FILES) \
 			$(MAINMATTER_FILES) \
-			$(ENDMATTER_FILES) \
-			$(METADATA_FILE)
+			$(ENDMATTER_FILES)
 
 all: mobi epub pdf
 
@@ -108,8 +112,11 @@ help:
 	@echo ""
 	@echo "Generated file basename: $(FILENAME)"
 
-epub: $(INPUT_FILES)
-	$(PANDOC) $(EPUB_OPTS) --to=epub -o $(FILENAME).epub $(INPUT_FILES)
+epub: $(INPUT_FILES) $(EPUB_METADATA_FILE)
+	$(PANDOC) $(EPUB_OPTS) -o $(FILENAME).epub $(INPUT_FILES) $(EPUB_METADATA_FILE)
+
+tex: $(INPUT_FILES)
+	$(PANDOC) $(PDF_OPTS) $(INPUT_FILES) -o $(FILENAME).tex
 
 mobi: epub
 	$(EBOOK_CONVERT) $(FILENAME).epub $(FILENAME).mobi
@@ -137,5 +144,4 @@ gitsnap:
 	$(GIT) add .
 	$(GIT) commit -m "Snapshot commit at `date`"
 
-.PHONY: epub mobi pdf clean draftpdf journal gitsnap all veryall
-
+.PHONY: epub mobi pdf clean draftpdf journal gitsnap all veryall tex

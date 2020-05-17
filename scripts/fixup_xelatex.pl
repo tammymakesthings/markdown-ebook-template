@@ -1,8 +1,4 @@
-#!/home/tammy/perl/bin/perl
-
-$book_title = "AZ Mystery 1";
-$book_subtitle = "A FirstName LastName Mystery";
-$book_author = "Tammy Cravit";
+#!/usr/bin/env perl
 
 $filename = $ARGV[0] || "book.tex";
 
@@ -24,15 +20,6 @@ while (<INPUT>)
     }
     elsif ($line =~ m/^\\mainmatter/) {
         print "Found mainmatter start at line ${linecount} - removing it\n";
-    }
-    elsif ($line =~ m/^\\title{/) {
-        print "Found \\title line at line ${linecount} - injecting title\n";
-        print OUTPUT "\\title{${book_title}}\n";
-        # print OUTPUT "\\subtitle{${book_subtitle}}\n";
-    }
-    elsif ($line =~ m/^\\author{/) {
-        print "Found \\author line at line ${linecount} - injecting title\n";
-        print OUTPUT "\\author{${book_author}}\n";
     }
     elsif ($line =~ m/\\chapter{(.*?)}\\label{(.*?)}}$/) {
         if ($injected_mainmatter == 0) {
