@@ -47,7 +47,7 @@ COMMON_OPTS=--css=ebook.css \
 			--strip-comments \
 			--standalone \
 			--metadata-file=$(PANDOC_METADATA_FILE) \
-			--resource-path=.:metadata:images:tex
+			--resource-path=.:metadata:images:tex:fonts
 
 #---------------------------------------------------------------------------
 # Format Specific Options
