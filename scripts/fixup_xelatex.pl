@@ -1,4 +1,8 @@
-#!/usr/bin/env perl
+#!/home/tammy/perl/bin/perl
+
+$book_title = "Cold Whispers";
+$book_subtitle = "A Nikki Saylor Mystery";
+$book_author = "Tammy Cravit";
 
 $filename = $ARGV[0] || "book.tex";
 
