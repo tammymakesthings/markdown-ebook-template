@@ -1,0 +1,127 @@
+/*
+ * ebook.css: Stylesheet for epub
+ */
+
+/************************* Font Embeds *************************/
+
+@import 'variables';
+@import 'font-embeds';
+
+/************************* EBook Styling *************************/
+
+body {
+    font-family: "Crimson Text", "Times New Roman", "Times", serif;
+    margin: 8%;
+    text-align: justify;
+    font-size: 12pt;
+}
+
+code {
+    font-family: "Anonymous Pro", "Courier New", "Courier", monospace;
+}
+
+@import 'titlepage';
+@import 'copyright';
+@import 'dedication';
+
+h1 + p {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+h2 {
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.5em;
+    page-break-before: always;
+}
+
+h3 {
+    text-align: left;
+    font-size: 1em;
+    font-weight: bold;
+    page-break-before: always;
+}
+
+h4 {
+    ext-align: left;
+}
+
+h5 {
+    text-align: left;
+}
+
+h6 {
+    text-align: left;
+}
+
+h1.title {
+    text-align: left;
+    font-size: 2.3em;
+    margin-top: 50%;
+    padding-top: 4em;
+    padding-bottom: 1.1em;
+    page-break-before: none;
+}
+
+h2.author {
+    font-size: 1.3em;
+    page-break-before: none;
+}
+
+h3.date {
+    page-break-before: none;
+}
+
+div.title {
+
+    h1 {
+        text-align: left;
+        font-size: 1.7em;
+        margin-top: 50%;
+        page-break-before: none;
+    }
+
+    h2 {
+        font-size: 1.3em;
+        page-break-before: none;
+    }
+}
+
+ol.toc {
+    padding: 0;
+    margin-left: 1em;
+
+    li {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+hr {
+    border: none;
+    text-align: center;
+}
+
+hr:after {
+    content: '* * *';
+}
+
+#toc > ol > li > a {
+    display: none;
+}
+
+#the-night-alphabet {
+
+    blockquote {
+        margin-top: 50%;
+        font-style: italic;
+    }
+
+    #the-night-alphabet h1 {
+        text-align: center;
+        font-size: 4em;
+        page-break-after: always;
+    }
+}

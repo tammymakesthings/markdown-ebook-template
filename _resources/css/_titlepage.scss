@@ -1,0 +1,51 @@
+/*
+ * ebook.css: Stylesheet for epub
+ */
+
+/************************* Title Page *************************/
+
+.titlepage {
+    text-align: center;
+    font-family: "Crimson Text Bold";
+    page-break-after: always;
+
+    h1.main {
+        font-face: "Calistoga";
+        font-size: 3.5em;
+        padding-bottom: 1.2em;
+        font-weight: bold;
+        page-break-before: none;
+    }
+
+    h1.subtitle {
+        font-face: "Calistoga";
+        font-size: 2.4em;
+        text-transform: lowercase;
+        page-break-before: none;
+    }
+
+    p.author {
+        padding-top: 5em;
+        font-size: 1.6em;
+        font-variant: small-caps;
+    }
+
+    p.author:first-of-type {
+        display: none;
+    }
+
+    p.publisher {
+        padding-top: 2.2em;
+        font-size: 1.3em;
+        font-style: italic;
+        padding-top: 12pt;
+        padding-bottom: 12pt;
+    }
+
+    div.rights {
+        padding-top: 3.5em;
+        font-size: 0.9em;
+        font-style: italic;
+    }
+}
+

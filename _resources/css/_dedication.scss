@@ -1,0 +1,12 @@
+/************************* Dedication Page Styles *************************/
+
+section#dedication {
+    padding-top: 6em;
+    text-align: center;
+    font-style: italic;
+
+    h1:first-of-type {
+        display: none;
+    }
+}
+

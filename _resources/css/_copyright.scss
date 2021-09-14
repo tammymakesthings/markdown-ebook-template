@@ -1,0 +1,10 @@
+
+/** Copyright page styling **/
+section#copyright {
+    page-break-after: always;
+    padding-top: 3em;
+
+    h1:first-of-type {
+        display: none;
+    }
+}

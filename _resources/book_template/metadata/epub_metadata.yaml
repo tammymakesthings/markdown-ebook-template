@@ -1,0 +1,21 @@
+---
+title:
+- type: main
+  text: '@@TITLE@@'
+- type: subtitle
+  text: '@@SUBTITLE@@'
+creator:
+- role: author
+  text: 'Author Name'
+identifier:
+- scheme: ISBN-13
+  text: 978-0-00000-000-0
+date: @@YEAR@@
+publisher: Publisher Name
+rights: Copyright © @@YEAR@@, Author Name. All rights reserved.
+language: en-US
+ibooks:
+  version: '1.0.0'
+css: ebook.css
+cover-image: cover.jpg
+---
